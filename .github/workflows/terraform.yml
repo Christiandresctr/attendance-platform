@@ -1,0 +1,47 @@
+name: Terraform AWS Demo
+
+on:
+  push:
+    paths:
+      - 'apps/api-gateway/**'
+    branches: ["desarrollo"]
+  pull_request:
+    paths:
+      - 'apps/api-gateway/**'
+    branches: ["qa", "main"]
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Descargar código
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2️⃣ Instalar Terraform
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.6
+
+      # 3️⃣ Inicializar Terraform
+      - name: Terraform Init
+        working-directory: terraform
+        run: terraform init
+
+      # 4️⃣ Validar configuración
+      - name: Terraform Validate
+        working-directory: terraform
+        run: terraform validate
+
+      # 5️⃣ Plan (simulación)
+      - name: Terraform Plan
+        working-directory: terraform
+        run: terraform plan
+
+      # 6️⃣ Apply automático (solo en main)
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main'
+        working-directory: terraform
+        run: terraform apply -auto-approve

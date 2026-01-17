@@ -1,0 +1,21 @@
+{
+  "name": "attendance-platform",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "turbo run dev --parallel",
+    "build": "turbo run build",
+    "test": "turbo run test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.27.0",
+  "devDependencies": {
+    "turbo": "^2.7.3"
+  },
+  "dependencies": {
+    "xlsx": "^0.18.5"
+  }
+}
