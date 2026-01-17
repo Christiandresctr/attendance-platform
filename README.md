@@ -11,3 +11,8 @@ Sistema distribuido para la gestión de asistencia con validación por GPS y QR.
 - apps/: microservicios
 - packages/: código compartido
 - infrastructure/: Docker y Terraform
+
+## This project follows a professional Git workflow using:
+- develop
+- qa
+- main (protected)
