@@ -6,7 +6,13 @@
   "scripts": {
     "dev": "turbo run dev --parallel",
     "build": "turbo run build",
-    "test": "turbo run test"
+    "test": "turbo run test",
+    "db:start": "docker-compose -f docker-compose.postgres.yml up -d",
+    "db:stop": "docker-compose -f docker-compose.postgres.yml down",
+    "db:reset": "docker-compose -f docker-compose.postgres.yml down -v && docker-compose -f docker-compose.postgres.yml up -d",
+    "db:logs": "docker-compose -f docker-compose.postgres.yml logs -f postgres",
+    "setup:db": "pnpm run db:start && sleep 10 && pnpm --filter auth-service run db:create",
+    "setup:full": "pnpm install && pnpm run setup:db && pnpm run build && pnpm --filter auth-service run seed:roles && pnpm --filter auth-service run seed:institucional"
   },
   "keywords": [],
   "author": "",
