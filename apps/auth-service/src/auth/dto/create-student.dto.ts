@@ -17,7 +17,7 @@ export class CreateStudentDto {
   })
   @MaxLength(255, { message: 'Email must be less than 255 characters' })
   @IsNotEmpty({ message: 'Email is required' })
-  email: string;
+  email!: string;
 
   @IsString()
   @IsNotEmpty({ message: 'Name is required' })
@@ -26,20 +26,20 @@ export class CreateStudentDto {
   @Matches(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/, {
     message: 'Name can only contain letters, spaces, and Spanish accents'
   })
-  name: string;
+  name!: string;
 
   @IsString()
   @IsNotEmpty({ message: 'Student ID is required' })
   @MinLength(3, { message: 'Student ID must be at least 3 characters long' })
   @MaxLength(20, { message: 'Student ID must be less than 20 characters' })
-  studentId: string;
+  studentId!: string;
 
   @IsString()
   @IsNotEmpty({ message: 'Identification is required' })
   @Matches(/^\d{10}$/, {
     message: 'Identification must contain exactly 10 digits'
   })
-  identification: string;
+  identification!: string;
 
   @IsOptional()
   @IsString()

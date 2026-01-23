@@ -12,12 +12,12 @@ export class LoginDto {
   @IsEmail({}, { message: 'Please provide a valid email address' })
   @IsNotEmpty({ message: 'Email is required' })
   @MaxLength(255, { message: 'Email must be less than 255 characters' })
-  email: string;
+  email!: string;
 
   @IsString()
   @IsNotEmpty({ message: 'Password is required' })
   @MinLength(1, { message: 'Password cannot be empty' })
-  password: string;
+  password!: string;
 
   @IsOptional()
   @IsString()

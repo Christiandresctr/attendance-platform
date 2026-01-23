@@ -65,7 +65,7 @@ async function bootstrap() {
 
     // Auth-specific stricter limiting
     const authLimiter = rateLimit({
-      windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS || '900000'), // 15 minutes
+      windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS || '90'), // 15 minutes
       max: parseInt(process.env.AUTH_RATE_LIMIT_MAX || '5'), // limit each IP to 5 auth attempts per windowMs
       skipSuccessfulRequests: true,
       message: {

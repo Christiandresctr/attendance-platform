@@ -3,22 +3,22 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeor
 @Entity('permissions')
 export class Permission {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column({ unique: true })
-  name: string;
+  name!: string;
 
   @Column({ type: 'varchar', length: 50 })
-  resource: string;
+  resource!: string;
 
   @Column({ type: 'varchar', length: 50 })
-  action: string;
+  action!: string;
 
   @Column({ type: 'text', nullable: true })
   description?: string;
 
   @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date;
+  createdAt!: Date;
 }
 
 export enum PermissionResource {

@@ -6,27 +6,27 @@ import { RoleAudit } from './role-audit.entity';
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column({ unique: true })
-  email: string;
+  email!: string;
 
   @Column({ nullable: true })
   name?: string;
 
   @OneToMany(() => Credential, (credential) => credential.user, { cascade: true })
-  credentials: Credential[];
+  credentials!: Credential[];
 
   @ManyToMany(() => Role, (role) => role.users, { cascade: true })
   @JoinTable({ name: 'user_roles' })
-  roles: Role[];
+  roles!: Role[];
 
   @OneToMany(() => RoleAudit, (audit) => audit.user)
-  roleAudits: RoleAudit[];
+  roleAudits!: RoleAudit[];
 
   @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date;
+  createdAt!: Date;
 
   @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt: Date;
+  updatedAt!: Date;
 }

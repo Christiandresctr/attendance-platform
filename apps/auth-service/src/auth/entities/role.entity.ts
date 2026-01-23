@@ -5,29 +5,29 @@ import { RoleAudit } from './role-audit.entity';
 @Entity('roles')
 export class Role {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column({ unique: true })
-  name: string;
+  name!: string;
 
   @Column({ type: 'text', nullable: true })
   description?: string;
 
   @Column({ type: 'integer', default: 10 })
-  level: number;
+  level!: number;
 
   @Column({ default: false })
-  isSystem: boolean;
+  isSystem!: boolean;
 
   @Column({ type: 'json', nullable: true })
   permissions?: string[];
 
   @ManyToMany(() => User, (user) => user.roles)
-  users: User[];
+  users!: User[];
 
   @OneToMany(() => RoleAudit, (audit) => audit.role)
-  roleAudits: RoleAudit[];
+  roleAudits!: RoleAudit[];
 
   @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date;
+  createdAt!: Date;
 }

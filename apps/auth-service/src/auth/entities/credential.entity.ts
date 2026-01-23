@@ -4,17 +4,17 @@ import { User } from './user.entity';
 @Entity('credentials')
 export class Credential {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @ManyToOne(() => User, (user) => user.credentials, { onDelete: 'CASCADE' })
-  user: User;
+  user!: User;
 
   @Column({ default: 'password' })
-  type: string;
+  type!: string;
 
   @Column({ name: 'password_hash' })
-  passwordHash: string;
+  passwordHash!: string;
 
   @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date;
+  createdAt!: Date;
 }

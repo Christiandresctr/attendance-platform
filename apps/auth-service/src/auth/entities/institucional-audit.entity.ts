@@ -3,16 +3,16 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeor
 @Entity('institucional_audit')
 export class InstitucionalAudit {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column()
-  email: string;
+  email!: string;
 
   @Column({
     type: 'varchar',
     length: 30,
   })
-  action: 'VALIDATION_SUCCESS' | 'VALIDATION_FAILED' | 'REGISTER_SUCCESS' | 'REGISTER_FAILED';
+  action: 'VALIDATION_SUCCESS' | 'VALIDATION_FAILED' | 'REGISTER_SUCCESS' | 'REGISTER_FAILED' = 'VALIDATION_SUCCESS';
 
   @Column({ type: 'text', nullable: true })
   details?: string;
@@ -25,5 +25,5 @@ export class InstitucionalAudit {
   userType?: 'student' | 'teacher' | 'not_found';
 
   @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date;
+  createdAt!: Date;
 }

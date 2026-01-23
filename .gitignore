@@ -1,36 +1,23 @@
-.turbo/*
-packages/*
+# Node
 node_modules/
-dist/
+pnpm-lock.yaml
+
+# Entornos
 .env
 .env.local
-.env.*.local
-.DS_Store
+
+# Builds
+dist/
+build/
+
+# IDEs
 .vscode/
 .idea/
-coverage/
-npm-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
-# dependencies
-node_modules/
 
-# env
-.env
-.env.*
-*.local
-
-# logs
-logs
-*.log
-
-# OS
-nul
+# Sistema
 .DS_Store
 Thumbs.db
 
-# lockfiles
-package-lock.json
-
-# security
-*.txt
+# Logs
+*.log
+logs/

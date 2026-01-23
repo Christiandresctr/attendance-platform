@@ -1,35 +1,29 @@
 import { Module } from '@nestjs/common';
-import { PassportModule } from '@nestjs/passport';
-import { JwtModule } from '@nestjs/jwt';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { JwtStrategy } from './security/jwt.strategy';
-import { RolesGuard } from './security/roles.guard';
-import { Attendance } from './attendance/attendance.entity';
+import { AttendanceModule } from './attendance/attendance.module';
 
 @Module({
   imports: [
-    PassportModule,
-    JwtModule.register({
-      secret: process.env.JWT_SECRET || 'SECRET_KEY_DEMO',
-    }),
-
+    ConfigModule.forRoot({ isGlobal: true }),
+    
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'mejo2127',
-      database: 'auth_service_dev',
+      url: process.env.DATABASE_URL || `postgresql://${process.env.DB_USER || 'postgres'}:${process.env.DB_PASSWORD || 'mejo2127'}@${process.env.DB_HOST || 'postgres'}:${process.env.DB_PORT || 5432}/${process.env.DB_NAME || 'attendance_service_dev'}`,
       autoLoadEntities: true,
-      synchronize: true,
+      synchronize: process.env.NODE_ENV === 'development',
+      logging: process.env.NODE_ENV === 'development',
+      entities: [
+        __dirname + '/**/*.entity{.ts,.js}',
+        'apps/auth-service/src/auth/entities/user.entity.ts',  // Importar User
+      ],
     }),
-
-    TypeOrmModule.forFeature([Attendance]),
+    
+    AttendanceModule,
   ],
   controllers: [AppController],
-  providers: [AppService, JwtStrategy, RolesGuard],
+  providers: [AppService],
 })
 export class AppModule {}

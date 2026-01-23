@@ -1,18 +1,108 @@
-version: '3.8'
-
 services:
+  # ==========================================
+  # POSTGRES - Una sola imagen para todas las DB
+  # ==========================================
   postgres:
-    image: postgres:15
-    container_name: attendance-db
-    restart: always
-    ports:
-      - "5432:5432"
+    image: postgres:15-alpine
+    container_name: postgres
+    restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: mejo2127
-      POSTGRES_DB: auth_service_dev
+    ports:
+      - "5432:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init-multi-db.sql:/docker-entrypoint-initdb.d/init-multi-db.sql
+    networks:
+      - attendance-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ==========================================
+  # AUTH SERVICE
+  # ==========================================
+  auth-service:
+    build:
+      context: ./apps/auth-service
+      dockerfile: Dockerfile
+    container_name: auth-service
+    restart: unless-stopped
+    ports:
+      - "3003:3003"
+    environment:
+      NODE_ENV: development
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: mejo2127
+      DB_NAME: auth_service_dev
+      DATABASE_URL: postgresql://postgres:mejo2127@postgres:5432/auth_service_dev
+      JWT_SECRET: your-super-secret-jwt-key-change-in-production
+      ALLOWED_ORIGINS: http://localhost:3002,http://api-gateway:3002
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - attendance-network
+
+  # ==========================================
+  # ATTENDANCE SERVICE
+  # ==========================================
+  attendance-service:
+    build:
+      context: ./apps/attendance-service
+      dockerfile: Dockerfile
+    container_name: attendance-service
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      NODE_ENV: development
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: mejo2127
+      DB_NAME: attendance_service_dev
+      DATABASE_URL: postgresql://postgres:mejo2127@postgres:5432/attendance_service_dev
+      ALLOWED_ORIGINS: http://localhost:3002,http://auth-service:3003
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - attendance-network
+
+  # ==========================================
+  # API GATEWAY
+  # ==========================================
+  api-gateway:
+    build:
+      context: ./apps/api-gateway
+      dockerfile: Dockerfile
+    container_name: api-gateway
+    restart: unless-stopped
+    ports:
+      - "3002:3002"
+    environment:
+      NODE_ENV: development
+      AUTH_SERVICE_URL: http://auth-service:3003
+      ATTENDANCE_SERVICE_URL: http://attendance-service:3001
+      JWT_SECRET: your-super-secret-jwt-key-change-in-production
+      ALLOWED_ORIGINS: http://localhost:3000,http://localhost:3001,http://localhost:3003
+    depends_on:
+      auth-service:
+        condition: service_started
+      attendance-service:
+        condition: service_started
+    networks:
+      - attendance-network
 
 volumes:
-  pgdata:
+  postgres_data:
+
+networks:
+  attendance-network:
+    driver: bridge

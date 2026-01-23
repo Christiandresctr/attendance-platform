@@ -19,9 +19,14 @@
   "license": "ISC",
   "packageManager": "pnpm@10.27.0",
   "devDependencies": {
-    "turbo": "^2.7.3"
+    "@types/node": "^22.19.6",
+    "turbo": "^2.7.3",
+    "typescript": "^5.9.3"
   },
   "dependencies": {
+    "@nestjs/common": "^11.1.12",
+    "@nestjs/core": "^11.1.12",
+    "@nestjs/platform-express": "^11.1.11",
     "xlsx": "^0.18.5"
   }
 }

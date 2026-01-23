@@ -5,17 +5,17 @@ import { User } from './user.entity';
 @Entity('refresh_tokens')
 export class RefreshToken {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @ManyToOne(() => User, { onDelete: 'CASCADE' })
-  user: User;
+  user!: User;
 
   @Column({ name: 'token_hash' })
-  tokenHash: string;
+  tokenHash!: string;
 
   @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date;
+  createdAt!: Date;
 
   @Column({ name: 'expires_at', nullable: true })
-  expiresAt: Date;
+  expiresAt!: Date;
 }

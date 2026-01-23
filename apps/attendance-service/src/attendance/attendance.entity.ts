@@ -1,6 +1,17 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+} from 'typeorm';
 
-@Entity()
+export enum AttendanceStatus {
+  PRESENT = 'PRESENT',
+  LATE = 'LATE',
+  ABSENT = 'ABSENT',
+}
+
+@Entity('attendance')
 export class Attendance {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -11,12 +22,13 @@ export class Attendance {
   @Column()
   classId: string;
 
-  @Column()
-  date: string;
+  @CreateDateColumn()
+  timestamp: Date;
 
-  @Column()
-  time: string;
-
-  @Column()
-  status: string;
+  @Column({
+    type: 'enum',
+    enum: AttendanceStatus,
+    default: AttendanceStatus.PRESENT,
+  })
+  status: AttendanceStatus;
 }

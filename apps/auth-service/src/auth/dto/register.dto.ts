@@ -16,7 +16,7 @@ export class RegisterDto {
   @Matches(/^[a-zA-Z0-9._%+-]+@uce\.edu\.ec$/, { 
     message: 'Email must be a valid UCE institutional email (@uce.edu.ec)' 
   })
-  email: string;
+  email!: string;
 
   @IsString()
   @IsNotEmpty({ message: 'Password is required' })
@@ -25,7 +25,7 @@ export class RegisterDto {
   @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/, {
     message: 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character (@$!%*?&)'
   })
-  password: string;
+  password!: string;
 
   @IsOptional()
   @IsString()

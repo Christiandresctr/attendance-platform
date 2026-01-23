@@ -6,26 +6,26 @@ export class InstitucionalStudent {
   id?: string;
 
   @Column({ unique: true })
-  email: string;
+  email!: string;
 
   @Column()
-  name: string;
+  name!: string;
 
   @Column({ name: 'student_id', unique: true })
-  studentId: string;
+  studentId!: string;
 
   @Column()
-  identification: string;
+  identification!: string;
 
   @Column()
-  faculty: string;
+  faculty!: string;
 
   @Column()
-  career: string;
+  career!: string;
 
   @Column({ default: true })
-  isActive: boolean;
+  isActive!: boolean;
 
   @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date;
+  createdAt!: Date;
 }

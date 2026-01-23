@@ -17,8 +17,8 @@ export class HealthController {
         timestamp: new Date().toISOString(),
         message: 'Auth Service is running'
       };
-    } catch (error) {
-      this.logger.error('Simple health check failed', error.stack, 'HealthController');
+    } catch (error: unknown) {
+      this.logger.error('Simple health check failed', (error as Error).stack, 'HealthController');
       throw error;
     }
   }
@@ -33,8 +33,8 @@ export class HealthController {
         timestamp: new Date().toISOString(),
         message: 'Auth Service is ready'
       };
-    } catch (error) {
-      this.logger.error('Readiness check failed', error.stack, 'HealthController');
+    } catch (error: unknown) {
+      this.logger.error('Readiness check failed', (error as Error).stack, 'HealthController');
       throw error;
     }
   }
@@ -49,8 +49,8 @@ export class HealthController {
         timestamp: new Date().toISOString(),
         message: 'Auth Service is alive'
       };
-    } catch (error) {
-      this.logger.error('Liveness check failed', error.stack, 'HealthController');
+    } catch (error: unknown) {
+      this.logger.error('Liveness check failed', (error as Error).stack, 'HealthController');
       throw error;
     }
   }
