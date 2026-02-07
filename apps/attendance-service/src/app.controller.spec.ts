@@ -9,14 +9,27 @@ describe('AppController', () => {
     const app: TestingModule = await Test.createTestingModule({
       controllers: [AppController],
       providers: [AppService],
-    }).compile();
+    })
+      .overrideGuard(require('./security/roles.guard').RolesGuard)
+      .useValue({ canActivate: () => true })
+      .overrideGuard(require('@nestjs/passport').AuthGuard('jwt'))
+      .useValue({ canActivate: () => true })
+      .compile();
 
     appController = app.get<AppController>(AppController);
   });
 
-  describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(appController.getHello()).toBe('Hello World!');
+  describe('getAttendance', () => {
+    it('should return attendance message', () => {
+      const result = appController.getAttendance();
+      expect(result).toEqual({ message: 'attendance visible' });
+    });
+  });
+
+  describe('markAttendance', () => {
+    it('should return attendance registered message', () => {
+      const result = appController.markAttendance();
+      expect(result).toEqual({ message: 'attendance registered' });
     });
   });
 });

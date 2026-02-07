@@ -1,10 +1,4 @@
-import { IsEnum, IsOptional } from 'class-validator';
-import { AttendanceStatus } from '../entities/attendance.entity';
+import { PartialType } from '@nestjs/swagger';
+import { CreateAttendanceDto } from './create-attendance.dto';
 
-export class UpdateAttendanceDto {
-  @IsOptional()
-  @IsEnum(AttendanceStatus, {
-    message: 'status must be PRESENT, LATE or ABSENT',
-  })
-  status?: AttendanceStatus;
-}
+export class UpdateAttendanceDto extends PartialType(CreateAttendanceDto) {}

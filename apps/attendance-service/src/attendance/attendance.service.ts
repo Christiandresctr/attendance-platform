@@ -4,11 +4,15 @@ import { Repository, Between } from 'typeorm';
 import { Attendance, AttendanceStatus } from './entities/attendance.entity';
 import { CreateAttendanceDto } from './dto/create-attendance.dto';
 import { UpdateAttendanceDto } from './dto/update-attendance.dto';
+import { ClassSchedule } from './entities/class-schedule.entity';
+import { ClassEnrollment } from './entities/class-enrollment.entity';
 @Injectable()
 export class AttendanceService {
   constructor(
     @InjectRepository(Attendance)
     private readonly attendanceRepo: Repository<Attendance>,
+
+    
   ) {}
 
   // POST - Marcar asistencia

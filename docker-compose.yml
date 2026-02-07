@@ -54,8 +54,8 @@ services:
   # ==========================================
   attendance-service:
     build:
-      context: ./apps/attendance-service
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: apps/attendance-service/Dockerfile
     container_name: attendance-service
     restart: unless-stopped
     ports:

@@ -1,10 +1,7 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Class } from './class.entity';
+import { User } from '@attendance-platform/auth-lib';
+
 
 export enum AttendanceStatus {
   PRESENT = 'PRESENT',
@@ -17,11 +14,21 @@ export class Attendance {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ name: 'user_id' })
   userId: string;
 
-  @Column()
+  // 👇 NUEVA: Relación con User (estudiante)
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'user_id' })
+  user: User;
+
+  @Column({ name: 'class_id' })
   classId: string;
+
+  // 👇 NUEVA: Relación con Class
+  @ManyToOne(() => Class)
+  @JoinColumn({ name: 'class_id' })
+  class: Class;
 
   @Column({ type: 'date' })
   date: Date;
@@ -36,9 +43,12 @@ export class Attendance {
   })
   status: AttendanceStatus;
 
-  @CreateDateColumn()
+  @Column({ type: 'text', nullable: true })
+  notes: string;
+
+  @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 }

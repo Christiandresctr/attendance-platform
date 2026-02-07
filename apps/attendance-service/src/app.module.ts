@@ -1,29 +1,22 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { databaseConfig } from './config/database.config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AttendanceModule } from './attendance/attendance.module';
+import { HealthController } from './health.controller';
+
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      url: process.env.DATABASE_URL || `postgresql://${process.env.DB_USER || 'postgres'}:${process.env.DB_PASSWORD || 'mejo2127'}@${process.env.DB_HOST || 'postgres'}:${process.env.DB_PORT || 5432}/${process.env.DB_NAME || 'attendance_service_dev'}`,
-      autoLoadEntities: true,
-      synchronize: process.env.NODE_ENV === 'development',
-      logging: process.env.NODE_ENV === 'development',
-      entities: [
-        __dirname + '/**/*.entity{.ts,.js}',
-        'apps/auth-service/src/auth/entities/user.entity.ts',  // Importar User
-      ],
-    }),
+    databaseConfig,
     
     AttendanceModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, HealthController],
   providers: [AppService],
 })
 export class AppModule {}
